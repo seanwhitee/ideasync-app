@@ -47,22 +47,14 @@ const state = reactive({
   profileDescription: undefined,
 });
 
-const getAvatar = computed(() => {
-  const randNum = Math.round(Math.random() * 10);
-  if (randNum % 2 == 0) {
-    return "avatar1.png";
-  } else {
-    return "avatar2.png";
-  }
-});
-
 async function onSubmit(event) {
   const result = {
     userName: state.username,
     password: state.password,
     nickName: state.nickName,
     profileDescription: state.profileDescription,
-    avatarUrl: getAvatar.value,
+    avatarUrl:
+      "https://ideasync-bucket-1.s3.amazonaws.com/cartoon-profile.jpeg",
     firstName: state.firstName,
     lastName: state.lastName,
     email: state.email,
