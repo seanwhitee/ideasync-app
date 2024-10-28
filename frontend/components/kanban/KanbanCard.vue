@@ -1,6 +1,8 @@
 <script setup>
 import CompleteRecruitSlideOver from "./CompleteRecruitSlideOver.vue";
 import ProjectSettingSlideOver from "./ProjectSettingSlideOver.vue";
+import { useProjectStore } from "~/store/project";
+
 const props = defineProps({
   projectId: String,
   status: String,
@@ -37,6 +39,24 @@ const items = [
       label: "專案設定",
       click: () => {
         isSettingOpen.value = true;
+      },
+    },
+    {
+      label: "刪除專案",
+      click: async () => {
+        const confirmDelete = confirm("您確定要刪除這個專案嗎？這個動作無法撤銷。");
+        if (confirmDelete) {
+          try {
+            const projectStore = useProjectStore();
+            await projectStore.deleteProject(props.projectId);
+
+            alert("專案已成功刪除");
+            router.push('/app-platform/projects');
+          } catch (error) {
+            console.error("刪除專案時出錯:", error);
+            alert("刪除專案失敗，請稍後再試");
+          }
+        }
       },
     },
   ],
