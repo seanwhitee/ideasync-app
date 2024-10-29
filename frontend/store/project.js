@@ -45,6 +45,10 @@ export const useProjectStore = defineStore("project", () => {
     "/api/v1/project/changeProjectStatus"
   );
 
+  const { fetch: deleteProjectRequest } = useCustomFetch(
+    "/api/v1/project/delete"
+  );
+
   const reset = () => {
     hostId.value = "";
     title.value = "";
@@ -173,6 +177,21 @@ export const useProjectStore = defineStore("project", () => {
     return res;
   };
 
+  const deleteProject = async (projectId) => {
+    const res = await deleteProjectRequest(
+      {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authStore.token.accessToken}`,
+      },
+      {
+        id: projectId,
+      },
+      null,
+      "DELETE"
+    );
+    return res;
+  };
+
   /**
    * @param {string} tag
    */
@@ -201,6 +220,7 @@ export const useProjectStore = defineStore("project", () => {
     getProjectById,
     rejectApplicant,
     acceptApplicant,
+    deleteProject,
     requireSkills,
     hostId,
     title,

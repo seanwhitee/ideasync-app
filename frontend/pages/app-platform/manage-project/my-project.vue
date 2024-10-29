@@ -368,6 +368,9 @@ const allowChangeStatus = computed(() => {
         :text="p.description"
         :openApplicantManageModal="setOpenApplicantManageModal"
         :openProjectStatusChangeModal="setOpenProjectStatusChangeModal"
+        @delete-project="
+          (id) => (projects = projects.filter((p) => p.id !== id))
+        "
       />
     </KanbanColumn>
   </div>

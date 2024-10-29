@@ -330,8 +330,18 @@ public class ProjectService {
         }
         return project.map(this::setProjectResponse).orElse(null);
     }
+
+    public static <T> boolean isAllNotNull(List<T> list) {
+        return list.stream().allMatch(Objects::nonNull);
+    }
+
     public List<ProjectResponse> filterPrivate(List<ProjectResponse> projectsRes) {
         List<ProjectResponse> publicProjects = new ArrayList<>();
+
+        if(!isAllNotNull(projectsRes)) {
+            return publicProjects;
+        }
+
         for (ProjectResponse res : projectsRes) {
             if (res.isPublic()) {
                 publicProjects.add(res);
