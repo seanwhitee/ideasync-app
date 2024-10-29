@@ -1,6 +1,9 @@
 <script setup>
 import CompleteRecruitSlideOver from "./CompleteRecruitSlideOver.vue";
 import ProjectSettingSlideOver from "./ProjectSettingSlideOver.vue";
+import DeleteDialog from "./DeleteDialog.vue";
+import useCustomFetch from "~/composable/useCustomFetch";
+import { useAuthStore } from "~/store/auth";
 import { useProjectStore } from "~/store/project";
 
 const props = defineProps({
@@ -11,8 +14,11 @@ const props = defineProps({
   openApplicantManageModal: Function,
   openProjectStatusChangeModal: Function,
 });
+
+const emit = defineEmits(["deleteProject"]);
 const isSlideOverOpen = ref(false);
 const isSettingOpen = ref(false);
+const isDeleteOpen = ref(false);
 const items = [
   [
     {
@@ -43,27 +49,28 @@ const items = [
     },
     {
       label: "刪除專案",
-      click: async () => {
-        const confirmDelete = confirm("您確定要刪除這個專案嗎？這個動作無法撤銷。");
-        if (confirmDelete) {
-          try {
-            const projectStore = useProjectStore();
-            await projectStore.deleteProject(props.projectId);
-
-            alert("專案已成功刪除");
-            router.push('/app-platform/projects');
-          } catch (error) {
-            console.error("刪除專案時出錯:", error);
-            alert("刪除專案失敗，請稍後再試");
-          }
-        }
+      click: () => {
+        isDeleteOpen.value = true;
       },
     },
   ],
 ];
+
 const router = useRouter();
+const projectStore = useProjectStore();
+const toast = useToast();
+const deleteProject = async () =>
+  await projectStore.deleteProject(props.projectId).then((r) => {
+    if (r === "Project deleted successfully") {
+      emit("deleteProject", props.projectId);
+      toast.add({ title: "專案刪除成功" });
+    } else {
+      toast.add({ title: "專案刪除失敗", color: "rose" });
+    }
+  });
 </script>
 <template>
+  <DeleteDialog v-model="isDeleteOpen" @delete-project="deleteProject" />
   <CompleteRecruitSlideOver
     v-model="isSlideOverOpen"
     :projectId="props.projectId"

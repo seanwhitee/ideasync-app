@@ -44,7 +44,10 @@ export const useProjectStore = defineStore("project", () => {
   const { fetch: changeProjStatus } = useCustomFetch(
     "/api/v1/project/changeProjectStatus"
   );
-  const { fetch: deleteProjectRequest } = useCustomFetch("/api/v1/project/delete");
+
+  const { fetch: deleteProjectRequest } = useCustomFetch(
+    "/api/v1/project/delete"
+  );
 
   const reset = () => {
     hostId.value = "";
@@ -175,28 +178,18 @@ export const useProjectStore = defineStore("project", () => {
   };
 
   const deleteProject = async (projectId) => {
-    try {
-      const response = await deleteProjectRequest(
-        {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authStore.token.accessToken}`,
-        },
-        {
-          id: projectId,
-        },
-        null,
-        "DELETE"
-      );
-
-      if (response.ok) {
-        alert("项目已成功删除");
-      } else {
-        throw new Error("删除失败");
-      }
-    } catch (error) {
-      console.error("删除项目时出错:", error);
-      alert("删除项目失败，请稍后再试");
-    }
+    const res = await deleteProjectRequest(
+      {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authStore.token.accessToken}`,
+      },
+      {
+        id: projectId,
+      },
+      null,
+      "DELETE"
+    );
+    return res;
   };
 
   /**
