@@ -1,5 +1,8 @@
 # IdeaSync
-A project member recruitment platform integrated with RAG.
+A project member recruitment platform integrated with RAG. 
+
+## Links
+[Video Demo](https://drive.google.com/file/d/12Fxq5H10KUWMUKvMWLwh_9G64xFBbV51/view?usp=sharing)
 
 ## Tech Stack
 - Frontend: Nuxt.js, TailwindCSS
