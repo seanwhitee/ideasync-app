@@ -24,7 +24,7 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
   ],
   image: {
-    dir: "assets/images",
+    domains: ["ideasync-bucket-1.s3.us-east-1.amazonaws.com"],
   },
   runtimeConfig: {
     awsAccessKey: "",

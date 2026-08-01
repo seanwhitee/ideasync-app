@@ -7,7 +7,7 @@ const main = async () => {
       `${process.env.BASE_URL}/api/v1/authorization/generateToken`,
       {
         ContentType: "application/json",
-      }
+      },
     );
     const token = res.data;
     console.log("token generated: ", res.data);
@@ -23,7 +23,7 @@ const main = async () => {
         allowProjectCreate: true,
         roleVerified: true,
         avatarUrl:
-          "https://ideasync-bucket-1.s3.amazonaws.com/cartoon-profile.jpeg",
+          "https://ideasync-bucket-1.s3.us-east-1.amazonaws.com/user.png",
         email: process.env.ADMIN_EMAIL,
         firstName: "Hsiangche",
         lastName: "Pai",
@@ -34,7 +34,7 @@ const main = async () => {
           ContentType: "application/json",
           Authorization: "Bearer " + token,
         },
-      }
+      },
     );
     console.log("initResponse: ", initResponse.data);
   } catch (error) {

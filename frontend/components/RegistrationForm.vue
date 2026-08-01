@@ -53,8 +53,7 @@ async function onSubmit(event) {
     password: state.password,
     nickName: state.nickName,
     profileDescription: state.profileDescription,
-    avatarUrl:
-      "https://ideasync-bucket-1.s3.amazonaws.com/cartoon-profile.jpeg",
+    avatarUrl: "https://ideasync-bucket-1.s3.us-east-1.amazonaws.com/user.png",
     firstName: state.firstName,
     lastName: state.lastName,
     email: state.email,
@@ -81,7 +80,7 @@ async function onSubmit(event) {
     { "Content-Type": "application/json" },
     null,
     JSON.stringify(result),
-    "POST"
+    "POST",
   ).then(async (response) => {
     switch (response) {
       case "user already exist":

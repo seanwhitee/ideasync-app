@@ -11,6 +11,9 @@ import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 
@@ -24,18 +27,33 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(authorize ->
+        return httpSecurity.csrf(AbstractHttpConfigurer::disable)
+                .cors(Customizer.withDefaults())
+                .authorizeHttpRequests(authorize ->
                         // Here we set authentication for all endpoints
                         authorize.requestMatchers("/api/v1/users/sendEmail",
                                         "/api/v1/users/login",
                                         "/api/v1/users/saveUserData",
                                         "/api/v1/users/checkUserData",
-                                        "/api/v1/authorization/generateToken").permitAll()
+                                        "/api/v1/authorization/generateToken",
+                                        "/error").permitAll()
                                 .anyRequest().authenticated()
                 )
                 // Here we enable that we will accept JWTs
                 .oauth2ResourceServer(configure -> configure.jwt(Customizer.withDefaults()))
                 .build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOriginPatterns(List.of("*"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
     public OAuth2TokenValidator<Jwt> tokenValidator() {

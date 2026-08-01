@@ -2,17 +2,17 @@ FROM arm64v8/node:22-alpine
 
 WORKDIR /app
 
+RUN corepack enable && corepack prepare pnpm@11.8.0 --activate
+
+# Install dependencies first so this layer is cached across builds
+# that only change application source.
+COPY frontend/package.json frontend/pnpm-lock.yaml frontend/pnpm-workspace.yaml ./
+RUN pnpm install --frozen-lockfile
+
 COPY frontend/. ./
 
-RUN rm -rf node_modules
-
-RUN rm package-lock.json
-
-# Install dependencies
-RUN npm install
-
 # Build the project
-RUN npm run build
+RUN pnpm run build
 
 # Start the application
-CMD [ "npm", "start" ]
+CMD [ "pnpm", "start" ]

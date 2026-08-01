@@ -1,0 +1,9 @@
+frontend/node_modules
+frontend/.nuxt
+frontend/.output
+frontend/.data
+frontend/.cache
+backend/.gradle
+backend/build
+backend/bin
+.git

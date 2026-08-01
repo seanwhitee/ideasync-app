@@ -17,17 +17,17 @@ const profile = computed(() => ({
 
 const toast = useToast();
 const { userAcceptCount, userCommentCount } = useProfileStore(
-  route.params.userId
+  route.params.userId,
 );
 const { fetch: updateUser, isLoading: updateLoading } = useCustomFetch(
-  "/api/v1/users/updateUser"
+  "/api/v1/users/updateUser",
 );
 const personalProjects = ref([]);
 
 onMounted(async () => {
   personalProjects.value = await projectStore.getProjectByUserId(
     route.params.userId,
-    false
+    false,
   );
 });
 const updateProfile = async (data) => {
@@ -41,7 +41,7 @@ const updateProfile = async (data) => {
       ...authStore.userInfo,
       ...data,
     },
-    "PATCH"
+    "PATCH",
   );
 
   Object.assign(authStore.userInfo, res);

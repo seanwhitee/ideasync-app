@@ -6,8 +6,8 @@ import com.ideasync.ideasyncbackend.project.dto.ProjectResponse;
 import com.ideasync.ideasyncbackend.user.User;
 import com.ideasync.ideasyncbackend.user.UserRepository;
 import org.springframework.ai.document.Document;
-import org.springframework.ai.vectorstore.PineconeVectorStore;
 import org.springframework.ai.vectorstore.SearchRequest;
+import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ public class ProjectStatusService {
     private static final Logger logger = LoggerFactory.getLogger(ProjectStatusService.class);
     private final ProjectStatusRepository projectStatusRepository;
     private final ProjectService projectService;
-    private final PineconeVectorStore vectorStore;
+    private final VectorStore vectorStore;
     private final UserRepository userRepository;
     private final ProjectRepository projectRepository;
 
@@ -29,7 +29,7 @@ public class ProjectStatusService {
     @Autowired
     public ProjectStatusService(ProjectStatusRepository projectStatusRepository,
                                 ProjectService projectService,
-                                PineconeVectorStore vectorStore,
+                                VectorStore vectorStore,
                                 UserRepository userRepository,
                                 ProjectRepository projectRepository) {
         this.projectStatusRepository = projectStatusRepository;

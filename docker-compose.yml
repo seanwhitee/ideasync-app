@@ -2,15 +2,15 @@ version: "3.8"
 
 services:
   db:
-    platform: linux/x86_64
-    image: mysql:5.7
+    image: mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
-
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "${DB_PORT}:3306"
+      - "3306:3306"
     networks:
       - ideasync
     command:
@@ -59,9 +59,9 @@ services:
       - spring.mail.properties.mail.smtp.auth=true
       - spring.mail.properties.mail.smtp.starttls.enable=true
       - spring.ai.vectorstore.pinecone.apiKey=${PINECONE_API_KEY}
-      - spring.ai.vectorstore.pinecone.environment=aped-4627-b74a
-      - spring.ai.vectorstore.pinecone.projectId=rq4bkeq
-      - spring.ai.vectorstore.pinecone.index-name=tag-embedding
+      - spring.ai.vectorstore.pinecone.environment=${PINECONE_ENVIRONMENT}
+      - spring.ai.vectorstore.pinecone.projectId=${PINECONE_PROJECT_ID}
+      - spring.ai.vectorstore.pinecone.index-name=${PINECONE_INDEX_NAME}
       - logging.level.org.springframework.security=TRACE
       - PUBLIC_KEY=${PUBLIC_KEY}
       - PRIVATE_KEY=${PRIVATE_KEY}
