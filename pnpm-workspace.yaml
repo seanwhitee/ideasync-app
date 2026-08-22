@@ -1,0 +1,9 @@
+packages:
+  - "app-ui"
+  - "app-api"
+  - "packages/**"
+allowBuilds:
+  esbuild: true
+  sharp: true
+  unrs-resolver: true
+  vue-demi: true
